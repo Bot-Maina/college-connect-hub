@@ -1,22 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { BookOpen, Home, Calendar, Users, Settings, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useNavigate, useLocation } from "react-router-dom";
 
 interface NavItem {
   icon: any;
   label: string;
-  active?: boolean;
+  path: string;
 }
 
 const navItems: NavItem[] = [
-  { icon: Home, label: "Dashboard", active: true },
-  { icon: BookOpen, label: "My Classes" },
-  { icon: Calendar, label: "Schedule" },
-  { icon: Users, label: "Community" },
-  { icon: Settings, label: "Settings" },
+  { icon: Home, label: "Dashboard", path: "/" },
+  { icon: BookOpen, label: "My Classes", path: "/classes" },
+  { icon: Calendar, label: "Schedule", path: "/schedule" },
+  { icon: Users, label: "Community", path: "/community" },
 ];
 
 export const DashboardNav = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   return (
     <nav className="bg-card border-b border-border sticky top-0 z-50 shadow-soft">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,20 +35,24 @@ export const DashboardNav = () => {
             </div>
             
             <div className="hidden md:flex items-center gap-1">
-              {navItems.map((item) => (
-                <Button
-                  key={item.label}
-                  variant={item.active ? "default" : "ghost"}
-                  size="sm"
-                  className={cn(
-                    "gap-2",
-                    item.active && "bg-primary text-primary-foreground"
-                  )}
-                >
-                  <item.icon className="h-4 w-4" />
-                  <span>{item.label}</span>
-                </Button>
-              ))}
+              {navItems.map((item) => {
+                const isActive = location.pathname === item.path;
+                return (
+                  <Button
+                    key={item.label}
+                    variant={isActive ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => navigate(item.path)}
+                    className={cn(
+                      "gap-2",
+                      isActive && "bg-primary text-primary-foreground"
+                    )}
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.label}</span>
+                  </Button>
+                );
+              })}
             </div>
           </div>
 
@@ -55,7 +61,10 @@ export const DashboardNav = () => {
               <Bell className="h-5 w-5" />
               <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full"></span>
             </Button>
-            <div className="flex items-center gap-3 ml-4">
+            <div 
+              className="flex items-center gap-3 ml-4 cursor-pointer hover:opacity-80 transition-opacity"
+              onClick={() => navigate("/profile")}
+            >
               <div className="text-right hidden sm:block">
                 <p className="text-sm font-medium text-foreground">John Smith</p>
                 <p className="text-xs text-muted-foreground">Theology Major</p>

@@ -4,8 +4,11 @@ import { NewsCard } from "@/components/NewsCard";
 import { ClassCard } from "@/components/ClassCard";
 import { StatsCard } from "@/components/StatsCard";
 import { BookOpen, Award, Clock, TrendingUp } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const navigate = useNavigate();
+  
   return (
     <div className="min-h-screen bg-background">
       <DashboardNav />
@@ -46,7 +49,12 @@ const Index = () => {
         <section className="mt-12">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-foreground">My Classes</h2>
-            <a href="#" className="text-sm text-primary hover:underline">View all →</a>
+            <button 
+              onClick={() => navigate("/classes")}
+              className="text-sm text-primary hover:underline"
+            >
+              View all →
+            </button>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <ClassCard
