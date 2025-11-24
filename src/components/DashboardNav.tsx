@@ -1,7 +1,28 @@
 import { Button } from "@/components/ui/button";
-import { BookOpen, Home, Calendar, Users, Settings, Bell } from "lucide-react";
+import { 
+  BookOpen, 
+  Home, 
+  Calendar, 
+  Users, 
+  Bell, 
+  LogOut,
+  GraduationCap,
+  FileText,
+  Library,
+  Award,
+  Heart
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface NavItem {
   icon: any;
@@ -11,20 +32,26 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { icon: Home, label: "Dashboard", path: "/" },
-  { icon: BookOpen, label: "My Classes", path: "/classes" },
+  { icon: GraduationCap, label: "Classes", path: "/classes" },
+  { icon: FileText, label: "Assignments", path: "/assignments" },
   { icon: Calendar, label: "Schedule", path: "/schedule" },
+  { icon: Library, label: "E-Library", path: "/library" },
+  { icon: Award, label: "RPL/Credits", path: "/credit-transfer" },
+  { icon: Heart, label: "Spiritual Life", path: "/spiritual-life" },
   { icon: Users, label: "Community", path: "/community" },
 ];
 
 export const DashboardNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, signOut } = useAuth();
+
   return (
     <nav className="bg-card border-b border-border sticky top-0 z-50 shadow-soft">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-8">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
               <div className="w-10 h-10 bg-gradient-hero rounded-lg flex items-center justify-center">
                 <BookOpen className="h-6 w-6 text-primary-foreground" />
               </div>
@@ -34,8 +61,8 @@ export const DashboardNav = () => {
               </div>
             </div>
             
-            <div className="hidden md:flex items-center gap-1">
-              {navItems.map((item) => {
+            <div className="hidden lg:flex items-center gap-1">
+              {navItems.slice(0, 5).map((item) => {
                 const isActive = location.pathname === item.path;
                 return (
                   <Button
@@ -53,6 +80,34 @@ export const DashboardNav = () => {
                   </Button>
                 );
               })}
+              
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm">
+                    More
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {navItems.slice(5).map((item) => (
+                    <DropdownMenuItem
+                      key={item.label}
+                      onClick={() => navigate(item.path)}
+                    >
+                      <item.icon className="h-4 w-4 mr-2" />
+                      {item.label}
+                    </DropdownMenuItem>
+                  ))}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate("/grades")}>
+                    <Award className="h-4 w-4 mr-2" />
+                    Grades
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/resources")}>
+                    <FileText className="h-4 w-4 mr-2" />
+                    Resources
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
 
@@ -61,18 +116,45 @@ export const DashboardNav = () => {
               <Bell className="h-5 w-5" />
               <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full"></span>
             </Button>
-            <div 
-              className="flex items-center gap-3 ml-4 cursor-pointer hover:opacity-80 transition-opacity"
-              onClick={() => navigate("/profile")}
-            >
-              <div className="text-right hidden sm:block">
-                <p className="text-sm font-medium text-foreground">John Smith</p>
-                <p className="text-xs text-muted-foreground">Theology Major</p>
-              </div>
-              <div className="w-10 h-10 bg-gradient-accent rounded-full flex items-center justify-center text-primary-foreground font-semibold">
-                JS
-              </div>
-            </div>
+            
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="flex items-center gap-3 ml-4 cursor-pointer hover:opacity-80 transition-opacity">
+                    <div className="text-right hidden sm:block">
+                      <p className="text-sm font-medium text-foreground">
+                        {user.user_metadata?.full_name || "Student"}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {user.email}
+                      </p>
+                    </div>
+                    <div className="w-10 h-10 bg-gradient-accent rounded-full flex items-center justify-center text-primary-foreground font-semibold">
+                      {(user.user_metadata?.full_name?.[0] || user.email?.[0] || "S").toUpperCase()}
+                    </div>
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate("/profile")}>
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/grades")}>
+                    Grades
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={signOut} className="text-red-600">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button onClick={() => navigate("/auth")}>
+                Sign In
+              </Button>
+            )}
           </div>
         </div>
       </div>

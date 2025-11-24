@@ -14,16 +14,317 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      chapel_attendance: {
+        Row: {
+          attended: boolean | null
+          created_at: string | null
+          event_date: string
+          event_name: string
+          event_type: string
+          id: string
+          reflection: string | null
+          user_id: string
+        }
+        Insert: {
+          attended?: boolean | null
+          created_at?: string | null
+          event_date: string
+          event_name: string
+          event_type: string
+          id?: string
+          reflection?: string | null
+          user_id: string
+        }
+        Update: {
+          attended?: boolean | null
+          created_at?: string | null
+          event_date?: string
+          event_name?: string
+          event_type?: string
+          id?: string
+          reflection?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      credit_transfers: {
+        Row: {
+          completion_date: string | null
+          course_code: string | null
+          course_name: string
+          created_at: string | null
+          credits_earned: number | null
+          grade: string | null
+          id: string
+          institution_name: string
+          notes: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          completion_date?: string | null
+          course_code?: string | null
+          course_name: string
+          created_at?: string | null
+          credits_earned?: number | null
+          grade?: string | null
+          id?: string
+          institution_name: string
+          notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          completion_date?: string | null
+          course_code?: string | null
+          course_name?: string
+          created_at?: string | null
+          credits_earned?: number | null
+          grade?: string | null
+          id?: string
+          institution_name?: string
+          notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      library_resources: {
+        Row: {
+          access_level: string | null
+          author: string | null
+          category: string
+          created_at: string | null
+          description: string | null
+          file_url: string | null
+          id: string
+          isbn: string | null
+          publication_year: number | null
+          publisher: string | null
+          resource_type: string
+          tags: string[] | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          access_level?: string | null
+          author?: string | null
+          category: string
+          created_at?: string | null
+          description?: string | null
+          file_url?: string | null
+          id?: string
+          isbn?: string | null
+          publication_year?: number | null
+          publisher?: string | null
+          resource_type: string
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          access_level?: string | null
+          author?: string | null
+          category?: string
+          created_at?: string | null
+          description?: string | null
+          file_url?: string | null
+          id?: string
+          isbn?: string | null
+          publication_year?: number | null
+          publisher?: string | null
+          resource_type?: string
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      ministry_opportunities: {
+        Row: {
+          contact_email: string | null
+          created_at: string | null
+          description: string | null
+          end_date: string | null
+          hours_required: number | null
+          id: string
+          location: string | null
+          ministry_type: string
+          requirements: string | null
+          spots_available: number | null
+          start_date: string | null
+          status: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          contact_email?: string | null
+          created_at?: string | null
+          description?: string | null
+          end_date?: string | null
+          hours_required?: number | null
+          id?: string
+          location?: string | null
+          ministry_type: string
+          requirements?: string | null
+          spots_available?: number | null
+          start_date?: string | null
+          status?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          contact_email?: string | null
+          created_at?: string | null
+          description?: string | null
+          end_date?: string | null
+          hours_required?: number | null
+          id?: string
+          location?: string | null
+          ministry_type?: string
+          requirements?: string | null
+          spots_available?: number | null
+          start_date?: string | null
+          status?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      ministry_participation: {
+        Row: {
+          created_at: string | null
+          hours_completed: number | null
+          id: string
+          opportunity_id: string
+          status: string | null
+          student_reflection: string | null
+          supervisor_notes: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          hours_completed?: number | null
+          id?: string
+          opportunity_id: string
+          status?: string | null
+          student_reflection?: string | null
+          supervisor_notes?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          hours_completed?: number | null
+          id?: string
+          opportunity_id?: string
+          status?: string | null
+          student_reflection?: string | null
+          supervisor_notes?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ministry_participation_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "ministry_opportunities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          email: string
+          enrollment_date: string | null
+          expected_graduation: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          program: string | null
+          student_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email: string
+          enrollment_date?: string | null
+          expected_graduation?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          program?: string | null
+          student_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string
+          enrollment_date?: string | null
+          expected_graduation?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          program?: string | null
+          student_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "student" | "faculty" | "admin" | "staff"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +451,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["student", "faculty", "admin", "staff"],
+    },
   },
 } as const
