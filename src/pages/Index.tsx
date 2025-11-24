@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { DashboardNav } from "@/components/DashboardNav";
 import { WelcomeBanner } from "@/components/WelcomeBanner";
 import { NewsCard } from "@/components/NewsCard";
@@ -5,9 +6,17 @@ import { ClassCard } from "@/components/ClassCard";
 import { StatsCard } from "@/components/StatsCard";
 import { BookOpen, Award, Clock, TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/auth");
+    }
+  }, [user, loading, navigate]);
   
   return (
     <div className="min-h-screen bg-background">
