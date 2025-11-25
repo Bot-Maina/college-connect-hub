@@ -10,7 +10,10 @@ import {
   FileText,
   Library,
   Award,
-  Heart
+  Heart,
+  Settings,
+  HelpCircle,
+  UserCog
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -142,6 +145,18 @@ export const DashboardNav = () => {
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate("/grades")}>
                     Grades
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/settings")}>
+                    <Settings className="h-4 w-4 mr-2" />
+                    Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/support")}>
+                    <HelpCircle className="h-4 w-4 mr-2" />
+                    Support
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/student-management")}>
+                    <UserCog className="h-4 w-4 mr-2" />
+                    Student Management
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={signOut} className="text-red-600">

@@ -22,8 +22,45 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <DashboardNav />
       
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
         <WelcomeBanner />
+
+        {/* Quick Actions */}
+        <section className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-gradient-hero p-6 rounded-xl shadow-soft hover:shadow-elevated transition-shadow cursor-pointer" onClick={() => navigate("/assignments")}>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-card/20 rounded-lg flex items-center justify-center">
+                <BookOpen className="h-6 w-6 text-card" />
+              </div>
+              <div>
+                <h3 className="text-card font-semibold text-lg">Assignments</h3>
+                <p className="text-card/80 text-sm">3 pending submissions</p>
+              </div>
+            </div>
+          </div>
+          <div className="bg-gradient-accent p-6 rounded-xl shadow-soft hover:shadow-elevated transition-shadow cursor-pointer" onClick={() => navigate("/schedule")}>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-card/20 rounded-lg flex items-center justify-center">
+                <Clock className="h-6 w-6 text-card" />
+              </div>
+              <div>
+                <h3 className="text-card font-semibold text-lg">Today's Schedule</h3>
+                <p className="text-card/80 text-sm">2 classes upcoming</p>
+              </div>
+            </div>
+          </div>
+          <div className="bg-card p-6 rounded-xl shadow-soft hover:shadow-elevated transition-shadow border border-border cursor-pointer" onClick={() => navigate("/library")}>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
+                <BookOpen className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="text-foreground font-semibold text-lg">E-Library</h3>
+                <p className="text-muted-foreground text-sm">Browse resources</p>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Stats Section */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
@@ -60,7 +97,7 @@ const Index = () => {
             <h2 className="text-2xl font-bold text-foreground">My Classes</h2>
             <button 
               onClick={() => navigate("/classes")}
-              className="text-sm text-primary hover:underline"
+              className="text-sm text-primary hover:underline font-medium"
             >
               View all →
             </button>
@@ -105,7 +142,7 @@ const Index = () => {
         <section className="mt-12">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-foreground">News & Announcements</h2>
-            <a href="#" className="text-sm text-primary hover:underline">View all →</a>
+            <a href="#" className="text-sm text-primary hover:underline font-medium">View all →</a>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <NewsCard
