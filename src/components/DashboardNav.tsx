@@ -37,8 +37,8 @@ interface NavItem {
 const navItems: NavItem[] = [
   { icon: Home, label: "Dashboard", path: "/" },
   { icon: GraduationCap, label: "Classes", path: "/classes" },
-  { icon: FileText, label: "Assignments", path: "/assignments" },
-  { icon: Calendar, label: "Schedule", path: "/schedule" },
+  { icon: FileText, label: "Assignments", path: "/assignment-system" },
+  { icon: Calendar, label: "Calendar", path: "/calendar" },
   { icon: Library, label: "E-Library", path: "/library" },
   { icon: Award, label: "RPL/Credits", path: "/credit-transfer" },
   { icon: Heart, label: "Spiritual Life", path: "/spiritual-life" },
@@ -105,6 +105,18 @@ export const DashboardNav = () => {
                   <DropdownMenuItem onClick={() => navigate("/announcements")}>
                     <Bell className="h-4 w-4 mr-2" />
                     Announcements
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/messages")}>
+                    <Users className="h-4 w-4 mr-2" />
+                    Messages
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/course-management")}>
+                    <GraduationCap className="h-4 w-4 mr-2" />
+                    Course Management
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/analytics")}>
+                    <Award className="h-4 w-4 mr-2" />
+                    Analytics
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate("/grades")}>
                     <Award className="h-4 w-4 mr-2" />
