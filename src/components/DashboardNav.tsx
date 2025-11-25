@@ -18,6 +18,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { NotificationCenter } from "./NotificationCenter";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -119,10 +120,7 @@ export const DashboardNav = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="relative">
-              <Bell className="h-5 w-5" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full"></span>
-            </Button>
+            <NotificationCenter />
             
             {user ? (
               <DropdownMenu>
