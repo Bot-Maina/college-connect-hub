@@ -16,6 +16,9 @@ import Auth from "./pages/Auth";
 import Library from "./pages/Library";
 import CreditTransfer from "./pages/CreditTransfer";
 import SpiritualLife from "./pages/SpiritualLife";
+import Settings from "./pages/Settings";
+import Support from "./pages/Support";
+import StudentManagement from "./pages/StudentManagement";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +43,9 @@ const App = () => (
             <Route path="/community" element={<Community />} />
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/support" element={<Support />} />
+            <Route path="/student-management" element={<StudentManagement />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
