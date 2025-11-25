@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/table";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserRole } from "@/hooks/useUserRole";
 import { useNavigate } from "react-router-dom";
 import { 
   Users, 
@@ -36,42 +37,29 @@ import {
 
 const StudentManagement = () => {
   const { user } = useAuth();
+  const { hasAnyRole, loading: rolesLoading } = useUserRole();
   const navigate = useNavigate();
   const [students, setStudents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
+
+  const canManage = hasAnyRole(["admin", "faculty"]);
 
   useEffect(() => {
-    checkAdminAccess();
-  }, [user]);
-
-  const checkAdminAccess = async () => {
-    if (!user) {
+    if (!user && !rolesLoading) {
       navigate("/auth");
       return;
     }
 
-    try {
-      const { data: roles } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", user.id);
-
-      const hasAdminAccess = roles?.some(r => r.role === "admin" || r.role === "faculty");
-      
-      if (!hasAdminAccess) {
-        navigate("/");
-        return;
-      }
-
-      setIsAdmin(true);
-      loadStudents();
-    } catch (error) {
-      console.error("Error checking access:", error);
+    if (!rolesLoading && !canManage) {
       navigate("/");
+      return;
     }
-  };
+
+    if (!rolesLoading && canManage) {
+      loadStudents();
+    }
+  }, [user, rolesLoading, canManage, navigate]);
 
   const loadStudents = async () => {
     try {
@@ -96,7 +84,18 @@ const StudentManagement = () => {
     student.student_id?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (!isAdmin) {
+  if (rolesLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <DashboardNav />
+        <div className="flex items-center justify-center h-96">
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!canManage) {
     return null;
   }
 

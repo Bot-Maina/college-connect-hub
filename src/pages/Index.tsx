@@ -1,22 +1,49 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { DashboardNav } from "@/components/DashboardNav";
 import { WelcomeBanner } from "@/components/WelcomeBanner";
 import { NewsCard } from "@/components/NewsCard";
 import { ClassCard } from "@/components/ClassCard";
 import { StatsCard } from "@/components/StatsCard";
-import { BookOpen, Award, Clock, TrendingUp } from "lucide-react";
+import { BookOpen, Award, Clock, TrendingUp, Megaphone } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { format } from "date-fns";
 
 const Index = () => {
   const navigate = useNavigate();
   const { user, loading } = useAuth();
+  const [announcements, setAnnouncements] = useState<any[]>([]);
 
   useEffect(() => {
     if (!loading && !user) {
       navigate("/auth");
     }
   }, [user, loading, navigate]);
+
+  useEffect(() => {
+    if (user) {
+      loadRecentAnnouncements();
+    }
+  }, [user]);
+
+  const loadRecentAnnouncements = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("announcements")
+        .select("*")
+        .eq("published", true)
+        .order("created_at", { ascending: false })
+        .limit(3);
+
+      if (error) throw error;
+      setAnnouncements(data || []);
+    } catch (error) {
+      console.error("Error loading announcements:", error);
+    }
+  };
   
   return (
     <div className="min-h-screen bg-background">
@@ -138,11 +165,51 @@ const Index = () => {
           </div>
         </section>
 
-        {/* News & Announcements */}
+        {/* Recent Announcements */}
+        {announcements.length > 0 && (
+          <section className="mt-12">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
+                <Megaphone className="h-6 w-6 text-primary" />
+                Latest Announcements
+              </h2>
+              <button 
+                onClick={() => navigate("/announcements")}
+                className="text-sm text-primary hover:underline font-medium"
+              >
+                View all →
+              </button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {announcements.map((announcement) => (
+                <Card key={announcement.id} className="hover:shadow-elevated transition-shadow cursor-pointer" onClick={() => navigate("/announcements")}>
+                  <CardHeader>
+                    <div className="flex items-start justify-between mb-2">
+                      <Badge variant="secondary">{announcement.category}</Badge>
+                      {announcement.priority === "high" && (
+                        <Badge className="bg-destructive/10 text-destructive">High Priority</Badge>
+                      )}
+                    </div>
+                    <CardTitle className="text-lg">{announcement.title}</CardTitle>
+                    <p className="text-xs text-muted-foreground">
+                      {format(new Date(announcement.created_at), "MMM d, yyyy")}
+                    </p>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground line-clamp-3">
+                      {announcement.content}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* News & Updates */}
         <section className="mt-12">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-foreground">News & Announcements</h2>
-            <a href="#" className="text-sm text-primary hover:underline font-medium">View all →</a>
+            <h2 className="text-2xl font-bold text-foreground">Campus News</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <NewsCard
