@@ -20,6 +20,11 @@ import Settings from "./pages/Settings";
 import Support from "./pages/Support";
 import StudentManagement from "./pages/StudentManagement";
 import Announcements from "./pages/Announcements";
+import CourseManagement from "./pages/CourseManagement";
+import AssignmentSystem from "./pages/AssignmentSystem";
+import Analytics from "./pages/Analytics";
+import Messages from "./pages/Messages";
+import CalendarView from "./pages/CalendarView";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -48,6 +53,11 @@ const App = () => (
             <Route path="/support" element={<Support />} />
             <Route path="/student-management" element={<StudentManagement />} />
             <Route path="/announcements" element={<Announcements />} />
+            <Route path="/course-management" element={<CourseManagement />} />
+            <Route path="/assignment-system" element={<AssignmentSystem />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/messages" element={<Messages />} />
+            <Route path="/calendar" element={<CalendarView />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
