@@ -19,6 +19,7 @@ import SpiritualLife from "./pages/SpiritualLife";
 import Settings from "./pages/Settings";
 import Support from "./pages/Support";
 import StudentManagement from "./pages/StudentManagement";
+import Announcements from "./pages/Announcements";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,6 +47,7 @@ const App = () => (
             <Route path="/settings" element={<Settings />} />
             <Route path="/support" element={<Support />} />
             <Route path="/student-management" element={<StudentManagement />} />
+            <Route path="/announcements" element={<Announcements />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

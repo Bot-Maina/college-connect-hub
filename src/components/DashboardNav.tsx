@@ -101,6 +101,10 @@ export const DashboardNav = () => {
                     </DropdownMenuItem>
                   ))}
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate("/announcements")}>
+                    <Bell className="h-4 w-4 mr-2" />
+                    Announcements
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate("/grades")}>
                     <Award className="h-4 w-4 mr-2" />
                     Grades
